@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+
+
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@700&display=swap");
+
+        :root {
+            /* Colors */
+            --brand-color: hsl(46, 100%, 50%);
+            --black: hsl(0, 0%, 0%);
+            --white: hsl(0, 0%, 100%);
+            /* Fonts */
+            --font-title: "Montserrat", sans-serif;
+            --font-text: "Lato", sans-serif;
+        }
+
+        /* RESET */
+
+        /* Box sizing rules */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        /* Remove default margin */
+        body,
+        h2,
+        p {
+            margin: 0;
+        }
+
+        /* GLOBAL STYLES */
+        body {
+            display: grid;
+            place-items: center;
+            height: 100vh;
+        }
+
+        h2 {
+            font-size: 2.25rem;
+            font-family: var(--font-title);
+            color: var(--white);
+            line-height: 1.1;
+        }
+
+        p {
+            font-family: var(--font-text);
+            font-size: 1rem;
+            line-height: 1.5;
+            color: var(--white);
+        }
+
+        .flow>*+* {
+            margin-top: var(--flow-space, 1em);
+        }
+
+        /* CARD COMPONENT */
+
+        .card {
+            display: grid;
+            place-items: center;
+            width: 80vw;
+            max-width: 21.875rem;
+            height: 28.125rem;
+            overflow: hidden;
+            border-radius: 0.625rem;
+            box-shadow: 0.25rem 0.25rem 0.5rem rgba(0, 0, 0, 0.25);
+        }
+
+        .card>* {
+            grid-column: 1 / 2;
+            grid-row: 1 / 2;
+        }
+
+        .card__background {
+            object-fit: cover;
+            max-width: 100%;
+            height: 100%;
+        }
+
+        .card__content {
+            --flow-space: 0.9375rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-self: flex-end;
+            height: 55%;
+            padding: 12% 1.25rem 1.875rem;
+            background: linear-gradient(180deg,
+                    hsla(0, 0%, 0%, 0) 0%,
+                    hsla(0, 0%, 0%, 0.3) 10%,
+                    hsl(0, 0%, 0%) 100%);
+        }
+
+        .card__content--container {
+            --flow-space: 1.25rem;
+        }
+
+        .card__title {
+            position: relative;
+            width: fit-content;
+            width: -moz-fit-content;
+            /* Prefijo necesario para Firefox  */
+        }
+
+        .card__title::after {
+            content: "";
+            position: absolute;
+            height: 0.3125rem;
+            width: calc(100% + 1.25rem);
+            bottom: calc((1.25rem - 0.5rem) * -1);
+            left: -1.25rem;
+            background-color: var(--brand-color);
+        }
+
+        .card__button {
+            padding: 0.75em 1.6em;
+            width: fit-content;
+            width: -moz-fit-content;
+            /* Prefijo necesario para Firefox  */
+            font-variant: small-caps;
+            font-weight: bold;
+            border-radius: 0.45em;
+            border: none;
+            background-color: var(--brand-color);
+            font-family: var(--font-title);
+            font-size: 1.125rem;
+            color: var(--black);
+        }
+
+        .card__button:focus {
+            outline: 2px solid black;
+            outline-offset: -5px;
+        }
+
+        @media (any-hover: hover) and (any-pointer: fine) {
+            .card__content {
+                transform: translateY(62%);
+                transition: transform 500ms ease-out;
+                transition-delay: 500ms;
+            }
+
+            .card__title::after {
+                opacity: 0;
+                transform: scaleX(0);
+                transition: opacity 1000ms ease-in, transform 500ms ease-out;
+                transition-delay: 500ms;
+                transform-origin: right;
+            }
+
+            .card__background {
+                transition: transform 500ms ease-in;
+            }
+
+            .card__content--container> :not(.card__title),
+            .card__button {
+                opacity: 0;
+                transition: transform 500ms ease-out, opacity 500ms ease-out;
+            }
+
+            .card:hover,
+            .card:focus-within {
+                transform: scale(1.05);
+                transition: transform 500ms ease-in;
+            }
+
+            .card:hover .card__content,
+            .card:focus-within .card__content {
+                transform: translateY(0);
+                transition: transform 500ms ease-in;
+            }
+
+            .card:focus-within .card__content {
+                transition-duration: 0ms;
+            }
+
+            .card:hover .card__background,
+            .card:focus-within .card__background {
+                transform: scale(1.3);
+            }
+
+            .card:hover .card__content--container> :not(.card__title),
+            .card:hover .card__button,
+            .card:focus-within .card__content--container> :not(.card__title),
+            .card:focus-within .card__button {
+                opacity: 1;
+                transition: opacity 500ms ease-in;
+                transition-delay: 1000ms;
+            }
+
+            .card:hover .card__title::after,
+            .card:focus-within .card__title::after {
+                opacity: 1;
+                transform: scaleX(1);
+                transform-origin: left;
+                transition: opacity 500ms ease-in, transform 500ms ease-in;
+                transition-delay: 500ms;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-white ">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="index.html"><img src="images/logo.png"
+            class="rounded-circle"   alt="" height="75px" width="100px"></a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-lab
+          el="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link ps-4" href="about.html">About</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle ps-4" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Perfumes
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="men.html">Men</a></li>
+                  <li><a class="dropdown-item" href="women.html">Women</a></li>
+                 
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a href="contact.html" class="nav-link" aria-disabled="true ps-4">Contact</a>
+              </li>
+            </ul>
+       
+          </div>
+      </div>
+      </nav>
+
+
+
+
+      <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-4">
+            <article class="card">
+                <img class="card__background" src="images/MenFragrances/men (1).jpg"
+                    alt="Photo of Cartagena's cathedral at the background and some colonial style houses" width="1920"
+                    height="2193" />
+                <div class="card__content | flow">
+                    <div class="card__content--container | flow">
+                        <h2 class="card__title">Pop Art</h2>
+                        <p class="card__description">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum in
+                            labore laudantium deserunt fugiat numquam.
+                        </p>
+                    </div>
+                    <button class="card__button">Read more</button>
+                </div>
+            </article></div>
+            <div class="col-md-4">
+            <article class="card">
+                <img class="card__background" src="images/MenFragrances/men (10).jpg"
+                    alt="Photo of Cartagena's cathedral at the background and some colonial style houses" width="1920"
+                    height="2193" />
+                <div class="card__content | flow">
+                    <div class="card__content--container | flow">
+                        <h2 class="card__title">Abstract Art</h2>
+                        <p class="card__description">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum in
+                            labore laudantium deserunt fugiat numquam.
+                        </p>
+                    </div>
+                    <button class="card__button">Read more</button>
+                </div>
+            </article></div>
+            <div class="col-md-4">
+            <article class="card">
+                <img class="card__background" src="images/MenFragrances/men (14).jpg"
+                    alt="Photo of Cartagena's cathedral at the background and some colonial style houses" width="1920"
+                    height="2193" />
+                <div class="card__content | flow">
+                    <div class="card__content--container | flow">
+                        <h2 class="card__title">Minimalism Art</h2>
+                        <p class="card__description">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum in
+                            labore laudantium deserunt fugiat numquam.
+                        </p>
+                    </div>
+                    <button class="card__button">Read more</button>
+                </div>
+            </article></div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-md-4">
+            <article class="card">
+                <img class="card__background" src="images/MenFragrances/men (11).jpg"
+                    alt="Photo of Cartagena's cathedral at the background and some colonial style houses" width="1920"
+                    height="2193" />
+                <div class="card__content | flow">
+                    <div class="card__content--container | flow">
+                        <h2 class="card__title">Pop Art</h2>
+                        <p class="card__description">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum in
+                            labore laudantium deserunt fugiat numquam.
+                        </p>
+                    </div>
+                    <button class="card__button">Read more</button>
+                </div>
+            </article></div>
+            <div class="col-md-4">
+            <article class="card">
+                <img class="card__background" src="images/MenFragrances/men (12).jpg"
+                    alt="Photo of Cartagena's cathedral at the background and some colonial style houses" width="1920"
+                    height="2193" />
+                <div class="card__content | flow">
+                    <div class="card__content--container | flow">
+                        <h2 class="card__title">Abstract Art</h2>
+                        <p class="card__description">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum in
+                            labore laudantium deserunt fugiat numquam.
+                        </p>
+                    </div>
+                    <button class="card__button">Read more</button>
+                </div>
+            </article></div>
+            <div class="col-md-4">
+            <article class="card">
+                <img class="card__background" src="images/MenFragrances/men (13).jpg"
+                    alt="Photo of Cartagena's cathedral at the background and some colonial style houses" width="1920"
+                    height="2193" />
+                <div class="card__content | flow">
+                    <div class="card__content--container | flow">
+                        <h2 class="card__title">Minimalism Art</h2>
+                        <p class="card__description">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum in
+                            labore laudantium deserunt fugiat numquam.
+                        </p>
+                    </div>
+                    <button class="card__button">Read more</button>
+                </div>
+            </article></div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-md-4">
+            <article class="card">
+                <img class="card__background" src="images/MenFragrances/men (15).jpg"
+                    alt="Photo of Cartagena's cathedral at the background and some colonial style houses" width="1920"
+                    height="2193" />
+                <div class="card__content | flow">
+                    <div class="card__content--container | flow">
+                        <h2 class="card__title">Pop Art</h2>
+                        <p class="card__description">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum in
+                            labore laudantium deserunt fugiat numquam.
+                        </p>
+                    </div>
+                    <button class="card__button">Read more</button>
+                </div>
+            </article></div>
+            <div class="col-md-4">
+            <article class="card">
+                <img class="card__background" src="images/MenFragrances/men (16).jpg"
+                    alt="Photo of Cartagena's cathedral at the background and some colonial style houses" width="1920"
+                    height="2193" />
+                <div class="card__content | flow">
+                    <div class="card__content--container | flow">
+                        <h2 class="card__title">Abstract Art</h2>
+                        <p class="card__description">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum in
+                            labore laudantium deserunt fugiat numquam.
+                        </p>
+                    </div>
+                    <button class="card__button">Read more</button>
+                </div>
+            </article></div>
+            <div class="col-md-4">
+            <article class="card">
+                <img class="card__background" src="images/MenFragrances/men (17).jpg"
+                    alt="Photo of Cartagena's cathedral at the background and some colonial style houses" width="1920"
+                    height="2193" />
+                <div class="card__content | flow">
+                    <div class="card__content--container | flow">
+                        <h2 class="card__title">Minimalism Art</h2>
+                        <p class="card__description">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum in
+                            labore laudantium deserunt fugiat numquam.
+                        </p>
+                    </div>
+                    <button class="card__button">Read more</button>
+                </div>
+            </article></div>
+        </div>
+        </div>
+    </footer>
+
+    <!-- Footer -->
+    <footer class="text-center text-lg-start bg-body-tertiary text-muted">
+        <!-- Section: Social media -->
+        <section class="container-fluid justify-content-center justify-content-lg-between p-4 border-bottom">
+          <!-- Left -->
+          <div class="me-5 d-none d-lg-block">
+            <span>Get connected with us on social networks:</span>
+          </div>
+          <!-- Left -->
+      
+          <!-- Right -->
+          <div>
+            <a href="" class="me-4 text-reset">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="" class="me-4 text-reset">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="" class="me-4 text-reset">
+              <i class="fab fa-google"></i>
+            </a>
+            <a href="" class="me-4 text-reset">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="" class="me-4 text-reset">
+              <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="" class="me-4 text-reset">
+              <i class="fab fa-github"></i>
+            </a>
+          </div>
+          <!-- Right -->
+        </section>
+        <!-- Section: Social media -->
+      
+        <!-- Section: Links  -->
+        <section class="">
+          <div class="container text-center text-md-start mt-5">
+            <!-- Grid row -->
+            <div class="row mt-3">
+              <!-- Grid column -->
+              <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                <!-- Content -->
+                <h6 class="text-uppercase fw-bold mb-4">
+                  <i class="fas fa-gem me-3"></i>ZELFAR WEBSITE
+                </h6>
+                <p>
+                  <H3>CUSTOMER SERVICE</H3> <br>
+                  <H5>Contact us 
+                    <br> delivery & Orders
+                    <br> returns & exchanges
+                    <br> terms & conditions
+                  </H5>
+      
+                </p>
+              </div>
+              <!-- Grid column -->
+      
+              <!-- Grid column -->
+              <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                <!-- Links -->
+                <h6 class="text-uppercase fw-bold mb-4">
+                  Products
+                </h6>
+                <p>
+                  <a href="#!" class="text-body-secondary">Men</a>
+                </p>
+                <p>
+                  <a href="#!" class="text-body-secondary">Women</a>
+                </p>
+                <!-- <p>
+                  <a href="#!" class="text-reset">Vue</a>
+                </p>
+                <p>
+                  <a href="#!" class="text-reset">Laravel</a>
+                </p> -->
+              </div>
+              <!-- Grid column -->
+      
+              <!-- Grid column -->
+              <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                <!-- Links -->
+                <h6 class="text-uppercase fw-bold mb-4">
+                  Useful links
+                </h6>
+                <p>
+                  <a href="#!" class="text-body-secondary">Pricing</a>
+                </p>
+                <p>
+                  <a href="#!" class="text-body-secondary">Settings</a>
+                </p>
+                <p>
+                  <a href="#!" class="text-body-secondary">Orders</a>
+                </p>
+                <p>
+                  <a href="#!" class="text-body-secondary">Help</a>
+                </p>
+              </div>
+              <!-- Grid column -->
+      
+              <!-- Grid column -->
+              <div class=" text-body-secondary col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                <!-- Links -->
+                <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
+                <p><i class="fas fa-home me-3"></i> New York, NY 10012, US</p>
+                <p>
+                  <i class="fas fa-envelope me-3"></i>
+                  info@example.com
+                </p>
+                <p><i class="fas fa-phone me-3"></i> + 01 234 567 88</p>
+                <p><i class="fas fa-print me-3"></i> + 01 234 567 89</p>
+              </div>
+              <!-- Grid column -->
+            </div>
+            <!-- Grid row -->
+          </div>
+        </section>
+        <!-- Section: Links  -->
+      
+        <!-- Copyright -->
+        <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+          © 2021 Copyright:
+          <a class="text-reset fw-bold" href="index.html">zelfar.com</a>
+        </div>
+        <!-- Copyright -->
+      </footer>
+    <!-- Footer -->
+      
+
+</body>
+</html>
